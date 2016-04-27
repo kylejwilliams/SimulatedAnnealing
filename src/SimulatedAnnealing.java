@@ -1,6 +1,3 @@
-/**
- * Created by Kyle on 4/25/2016.
- */
 public class SimulatedAnnealing {
     // First, generate a random solution
     // Calculate its cost using some cost function you've defined

@@ -1,4 +1,6 @@
 
+import static javax.swing.SwingUtilities.invokeLater;
+
 /**
  * Created by Kyle on 4/24/2016.
  *
@@ -10,12 +12,11 @@
  * Make your results reproducible (be careful with your use of the random number generator).
  */
 public class Main {
-    private static int numIter = 100;
-    private static String output = "";
-
     public static void main(String[] args) {
         Data data = new Data();
         data.generateDataPoints(100, 0);
-        data.printDataPoints();
+        Graph graph = new Graph(data);
+
+        invokeLater(() -> graph.displayGraph());
     }
 }
