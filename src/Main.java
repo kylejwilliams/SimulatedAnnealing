@@ -14,13 +14,8 @@ public class Main {
     private static String output = "";
 
     public static void main(String[] args) {
-        for (int iter = 0; iter < numIter; iter++) {
-            output = "";
-
-            if (iter % 3 == 0) output += "Fizz";
-            if (iter % 5 == 0) output += "Buzz";
-
-            System.out.println(iter + ": " + output);
-        }
+        Data data = new Data();
+        data.generateDataPoints(100, 0);
+        data.printDataPoints();
     }
 }
