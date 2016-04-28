@@ -1,12 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 class Graph extends JPanel {
     private static final int MAX_SCORE = 100;
     private static final int BORDER_GAP = 30;
-    private static final Color GRAPH_POINT_COLOR = new Color(150, 50, 50, 180);
+    //private static final Color GRAPH_POINT_COLOR = new Color(150, 50, 50, 180);
     private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
     private static final int GRAPH_POINT_WIDTH = 12;
     private static final int Y_HATCH_CNT = 10;
@@ -14,21 +13,25 @@ class Graph extends JPanel {
     private static final int PREFERRED_WIDTH = 800;
     private static final int PREFERRED_HEIGHT = 800;
 
-    private Data data;
-    private List<Point> graphPoints = new ArrayList<>();
+    private ArrayList<ArrayList<Point>> clusters = new ArrayList<>();
+    private ArrayList<ArrayList<Point>> graphPointClusters = new ArrayList<>();
 
-    Graph(Data d) {
-        data = d;
+    Graph(ArrayList<ArrayList<Point>> c) {
+        clusters = c;
     }
 
     private void createGraphPoints() {
-        double scale = (double)(getWidth() - (2 * BORDER_GAP)) / MAX_SCORE;
-        //double yScale = (double)(getHeight() - (2 * BORDER_GAP)) / MAX_SCORE;
+        int scale = (getWidth() - (2 * BORDER_GAP)) / MAX_SCORE;
 
-        for (int i = 0; i < data.getDataSize(); i++) {
-            int x = (int)(data.getDataPoints()[i].getX() * scale) + BORDER_GAP;
-            int y = (int)(data.getDataPoints()[i].getY() * scale) + BORDER_GAP;
-            graphPoints.add(new Point(x, y));
+        for (ArrayList<Point> cluster : clusters) {
+            ArrayList<Point> graphPoints = new ArrayList<>();
+
+            for (Point p : cluster) {
+                int x = p.x * scale + BORDER_GAP;
+                int y = p.y * scale + BORDER_GAP;
+                graphPoints.add(new Point(x, y));
+            }
+            graphPointClusters.add(graphPoints);
         }
     }
 
@@ -57,14 +60,21 @@ class Graph extends JPanel {
     }
 
     private void plotGraphPoints(Graphics2D g2) {
+        Random rand = new Random();
         g2.setStroke(GRAPH_STROKE);
-        g2.setColor(GRAPH_POINT_COLOR);
-        for (Point g : graphPoints) {
-            int x = g.x - GRAPH_POINT_WIDTH / 2;
-            int y = g.y - GRAPH_POINT_WIDTH / 2;
-            int ovalW = GRAPH_POINT_WIDTH;
-            int ovalH = GRAPH_POINT_WIDTH;
-            g2.fillOval(x, y, ovalW, ovalH);
+        for (ArrayList<Point> cluster : graphPointClusters) {
+            float r = rand.nextFloat();
+            float g = rand.nextFloat();
+            float b = rand.nextFloat();
+            g2.setColor(new Color(r, g, b));
+
+            for (Point p : cluster) {
+                int x = p.x - GRAPH_POINT_WIDTH / 2;
+                int y = p.y - GRAPH_POINT_WIDTH / 2;
+                int ovalW = GRAPH_POINT_WIDTH;
+                int ovalH = GRAPH_POINT_WIDTH;
+                g2.fillOval(x, y, ovalW, ovalH);
+            }
         }
     }
 
@@ -79,7 +89,7 @@ class Graph extends JPanel {
     }
 
     void displayGraph() {
-        Graph mainPanel = new Graph(data);
+        Graph mainPanel = new Graph(clusters);
         mainPanel.setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
         JFrame frame = new JFrame("Simulated Annealing");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
