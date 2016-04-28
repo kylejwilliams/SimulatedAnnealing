@@ -6,7 +6,6 @@ class Data {
     private ArrayList<Point> dataPoints;
 
     ArrayList<Point> getDataPoints() { return dataPoints; }
-    int getDataSize() { return dataPoints.size(); }
 
     private void setDataPoints(ArrayList<Point> dataPoints) {
         this.dataPoints = dataPoints;

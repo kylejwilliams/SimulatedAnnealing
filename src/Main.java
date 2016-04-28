@@ -13,17 +13,10 @@ import static javax.swing.SwingUtilities.invokeLater;
  */
 public class Main {
     public static void main(String[] args) {
-        final int SEED = 27;
-        final int NUM_DATA_POINTS = 100;
-        final int NUM_CLUSTERS = 3;
-
-        Data data = new Data();
-        data.generateDataPoints(NUM_DATA_POINTS, SEED);
-
-        Clustering algos = new Clustering(data);
-        algos.generateRandomClusters(NUM_CLUSTERS, SEED);
+        Clustering algos = new Clustering(new Data());
+        algos.setClusters(algos.simulatedAnnealing());
         Graph graph = new Graph(algos.getClusters());
 
-        invokeLater(() -> graph.displayGraph());
+        invokeLater(graph::displayGraph);
     }
 }
