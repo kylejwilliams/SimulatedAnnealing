@@ -3,23 +3,22 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Clustering {
+class Clustering {
     private ArrayList<ArrayList<Point>> clusters = new ArrayList<>();
     private Data data;
     private final int SEED = 333;
-    private final int NUM_CLUSTERS = 3;
-    private final int NUM_POINTS = 100;
 
-    public Clustering(Data data) {
+    Clustering(Data data) {
         this.data = data;
+        int NUM_POINTS = 100;
         this.data.generateDataPoints(NUM_POINTS, SEED);
     }
 
-    public ArrayList<ArrayList<Point>> getClusters() { return clusters; }
+    ArrayList<ArrayList<Point>> getClusters() { return clusters; }
 
-    public void setClusters(ArrayList<ArrayList<Point>> clusters) { this.clusters = clusters; }
+    void setClusters(ArrayList<ArrayList<Point>> clusters) { this.clusters = clusters; }
 
-    public ArrayList<ArrayList<Point>> simulatedAnnealing() {
+    ArrayList<ArrayList<Point>> simulatedAnnealing() {
         ArrayList<ArrayList<Point>> bestSolution;
 
         // initialize temperature
@@ -27,6 +26,7 @@ public class Clustering {
         double coolingRate = 0.003;
 
         // First, generate a random solution
+        int NUM_CLUSTERS = 3;
         ArrayList<ArrayList<Point>> curSolution = generateRandomClusters(data, NUM_CLUSTERS);
 
         // print some stats
@@ -203,36 +203,6 @@ public class Clustering {
         System.out.println();
     }
 
-    private static double minDistanceBetweenClusters(ArrayList<ArrayList<Point>> clusters) {
-        ArrayList<ArrayList<Point>> tmpClusters = new ArrayList<>(clusters);
-        double min = Integer.MAX_VALUE;
-        while (tmpClusters.size() > 0) {
-            for (ArrayList<Point> cluster : tmpClusters) {
-                if (euclideanDistance(cluster.get(0), tmpClusters.get(0).get(0)) < min &&
-                        euclideanDistance(cluster.get(0), tmpClusters.get(0).get(0)) != 0) {
-                    min = euclideanDistance(cluster.get(0), tmpClusters.get(0).get(0));
-                }
-            }
-            tmpClusters.remove(0);
-        }
-
-        return min;
-    }
-
-    private static double maxDistanceBetweenClusters(ArrayList<ArrayList<Point>> clusters) {
-        ArrayList<ArrayList<Point>> tmpClusters = new ArrayList<>(clusters);
-        double max = Integer.MIN_VALUE;
-        while (tmpClusters.size() > 0) {
-            for (ArrayList<Point> cluster : tmpClusters) {
-                if (euclideanDistance(cluster.get(0), tmpClusters.get(0).get(0)) > max) {
-                    max = euclideanDistance(cluster.get(0), tmpClusters.get(0).get(0));
-                }
-            }
-            tmpClusters.remove(0);
-        }
-
-        return max;
-    }
 }
 
 // inter-cluster distance -> minimized

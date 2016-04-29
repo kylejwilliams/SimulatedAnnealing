@@ -60,7 +60,7 @@ class Graph extends JPanel {
     }
 
     private void plotGraphPoints(Graphics2D g2) {
-        Random rand = new Random();
+        Random rand;
         g2.setStroke(GRAPH_STROKE);
         for (ArrayList<Point> cluster : graphPointClusters) {
             rand = new Random(graphPointClusters.indexOf(cluster));
