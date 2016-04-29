@@ -1,11 +1,20 @@
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 class Data {
     private ArrayList<Point> dataPoints;
 
-    ArrayList<Point> getDataPoints() { return dataPoints; }
+    Data(ArrayList<Point> data) {
+        this.dataPoints = data;
+    }
+
+    Data() {
+
+    }
+
+    public ArrayList<Point> getDataPoints() { return dataPoints; }
 
     private void setDataPoints(ArrayList<Point> dataPoints) {
         this.dataPoints = dataPoints;

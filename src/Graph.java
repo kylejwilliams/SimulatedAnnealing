@@ -63,6 +63,7 @@ class Graph extends JPanel {
         Random rand = new Random();
         g2.setStroke(GRAPH_STROKE);
         for (ArrayList<Point> cluster : graphPointClusters) {
+            rand = new Random(graphPointClusters.indexOf(cluster));
             float r = rand.nextFloat();
             float g = rand.nextFloat();
             float b = rand.nextFloat();
